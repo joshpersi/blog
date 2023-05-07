@@ -1,1 +1,10 @@
-/* css styles */
+div.quarto-about-solana .about-entity .about-link:hover {
+  color: #5e81ac;
+}
+
+div.nav-footer,
+div.nav-footer-center {
+  min-height: 1.5em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+}

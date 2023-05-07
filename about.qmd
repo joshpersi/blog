@@ -1,19 +1,21 @@
 ---
-title: "About"
+title: "Josh Persi"
 image: profile.jpg
 about:
-  template: jolla
+  template: solana
   links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com
+    - icon: mastodon
+      text: Mastodon
+      href: https://fosstodon.org/@joshpersi
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/josh-persi
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/josh-persi/
 
 ---
 
-About this blog
+Hi, I'm Josh Persi. I'm a data scientist with the Canadian Food Inspection Agency. I help the agency understand emerging risks to plant health by building statistical and spatial models of pest spread. My academic background is in ecology, particularly plant ecology, and much of my prior work experience was spent performing field experiments and botanical inventories. 
+
+

@@ -1,0 +1,70 @@
+/*-- scss:defaults --*/
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+// Colors
+$body-bg: #eceff4;
+$body-color: #2e3440;
+$link-color: #eceff4;
+$input-bg: #eceff4;
+$popover-bg: #2e3440;
+
+// Fonts
+$font-family-sans-serif: "Rubik", sans-serif !default;
+$font-family-monospace: "Fira Code", sans-serif !default;
+// $font-size-root:
+// $toc-font-size:
+// $h1-font-size:
+// $h2-font-size:
+// $h3-font-size:
+// $h4-font-size:
+// $h5-font-size:
+// $h6-font-size:
+
+// Code blocks
+// $code-block-border-left:
+// $code-block-border-left-style:
+// $code-block-border-left-size:
+// $code-block-padding-left:
+$code-block-bg: #e5e9f0;
+// $code-block-bg-padding:
+// $code-block-bg-alpha:
+
+// Code copy
+$btn-code-copy-color: #4c566a;
+$btn-code-copy-color-active: #2e3440;
+
+// Inline code
+$code-bg: #d8dee9;
+$code-color: #bf616a;
+
+// Table of conents
+$toc-color: #2e3440; // The color for table of contents text.
+$toc-active-border: #2e3440; // The left border color for the currently active table of contents item.
+// $toc-inactive-border: // The left border colors for inactive table of contents items.
+
+// Layout
+$content-padding-top: 0px;
+
+// Navigation
+$navbar-bg: #2e3440;
+$navbar-fg: #eceff4;
+// $navbar-hl:
+// $sidebar-bg:
+// $sidebar-fg:
+// $sidebar-hl:
+// $footer-bg:
+$footer-fg: #4c566a;
+
+// Callouts
+// $callout-border-width:
+// $callout-border-scale:
+// $callout-icon-scale:
+// $callout-margin-top:
+// $callout-margin-bottom:
+
+$callout-color-note: #b48ead;
+$callout-color-warning: #ebcb8b;
+$callout-color-important: #bf616a;
+$callout-color-tip: #a3be8c;
+$callout-color-caution: #d08770;
