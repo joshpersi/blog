@@ -1,0 +1,26 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Josh Persi"
+  description: A personal website and blog made by and for Josh Persi
+  search: false
+  navbar:
+    right:
+      - about.qmd
+    pinned: true
+    toggle-position: left
+  back-to-top-navigation: true
+  page-footer: "<br>Copyright 2023, Josh Persi"
+
+
+format:
+  html:
+    theme: styles.scss
+    highlight-style: nord
+    title-block-banner: false
+
+
+
+

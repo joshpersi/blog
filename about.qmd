@@ -1,0 +1,43 @@
+---
+title: "About"
+from: markdown+emoji
+about:
+  template: solana
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/joshpersi
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/josh-persi
+    - icon: twitter
+      text: Twitter
+      href: https://linkedin.com/in/josh-persi
+
+---
+
+Hello :wave: my name is Josh and I work at the intersection of plant science and data science. Plant science was my first passion and led me to pursure a B.Sc. and M.Sc. in plant ecology. It was during my academic training that I was introduced to data science and I was quickly drawn to the loop of processing, exploring, and analyzing data. I am currently working as a data analyst with the [Plant Health Business Line of the Canadian Food Inspection Agency](https://inspection.canada.ca/plant-health/eng/1299162629094/1299162708850) where I leverage open source tools and government data to identify and qualify risks to Canada's plant health.
+
+
+# Experience
+<p style="text-align:left;">
+    Science Specialist | Canadian Food Inspection Agency
+    <span style="float:right;">2021 -- Present</span>
+</p>
+<hr>
+At the CFIA, my primary objective is to enable the agency to identify emerging threats to Canada's silvicultural, horticultural, and agricultural industries. In my work, I use open source tools like R and Python to develop spatial predictive that demonstrate where novel plant pests may spread throughout Canada.
+
+# Education
+<p style="text-align:left;">
+    Master of Science | McGill University
+    <span style="float:right;">2018 -- 2020</span>
+</p>
+<hr>
+My graduate thesis evaluted the longstanding hypotheses that species range limits are set by contrasting forces at opposing edges of the species' range. I tested if the range of an annual herb, _Rhinanthus minor_, is set by abiotic forces at the high-elevation range limit and by biotic forces at the low-elevation range limit. I conducted these tests in the scenic Rocky Mountains of Alberta, Canada.
+
+<p style="text-align:left;">
+    Bachelor of Science | University of Guelph
+    <span style="float:right;">2013 -- 2017</span>
+</p>
+<hr>
+My undergradute thesis centered on understanding how plants engaging in symbiosis with mycorrhizal fungi modify the structure of their roots. Mycorrhizal fungi supply nutrients to their host plants and as such, the expectation was that plants would forego the energetic cost of developing their own complex root systems.

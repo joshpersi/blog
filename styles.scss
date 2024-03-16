@@ -1,0 +1,81 @@
+// Import the Rubrik font
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+// Declare variables for the 15 core colours in the Nord palette
+$nord0: #2e3440;
+$nord1: #3b4252;
+$nord2: #434c5e;
+$nord3: #4c566a;
+$nord4: #d8dee9;
+$nord5: #e5e9f0;
+$nord6: #eceff4;
+$nord7: #8fbcbb;
+$nord8: #88c0d0;
+$nord9: #81a1c1;
+$nord10: #5e81ac;
+$nord11: #bf616a;
+$nord12: #d08770;
+$nord13: #ebcb8b;
+$nord14: #a3be8c;
+$nord15: #b48ead;
+
+/*-- scss:defaults --*/
+// Colors
+$body-bg: $nord6;
+$body-color: $nord0;
+$link-color: $nord10;
+$input-bg: $nord6;
+$popover-bg: $nord6;
+
+// Fonts
+$font-family-sans-serif: 'Rubik';
+$font-family-monospace: 'Fira Code';
+
+// Code Blocks
+$code-block-bg: $nord1;
+
+// Code Copy
+$btn-code-copy-color: $nord6;
+$btn-code-copy-color-active: $nord6;
+
+// Inline Code
+$code-bg: $nord1;
+$code-color: $nord6;
+
+// Table of Contents
+$toc-active-border: $nord0;
+$toc-inactive-border: $nord4;
+
+// Callouts
+$callout-color-note: $nord15;
+$callout-color-tip: $nord14;
+$callout-color-caution: $nord13;
+$callout-color-warning: $nord11;
+
+// Navigation
+$navbar-bg: $nord0;
+$navbar-fg: $nord6;
+$navbar-hl: $nord6;
+
+/*-- scss:rules --*/
+div.quarto-category {
+    color: $nord1 !important;
+    border: none !important;
+    background: $nord8;
+    opacity: unset !important
+}
+
+a.about-link {
+    color: $nord1 !important;
+    border: none !important;
+    background: $nord8;
+    opacity: unset !important
+}
+
+div.listing-category {
+    color: $nord1 !important;
+    border: none !important;
+    background: $nord8;
+    opacity: unset !important
+}

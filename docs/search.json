@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts.\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Josh Persi",
+    "section": "",
+    "text": "Post With Code\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\nHarlow Malloc\n\n\nMar 15, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\nTristan O’Malley\n\n\nMar 12, 2024\n\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hello 👋 my name is Josh and I work at the intersection of plant science and data science. Plant science was my first passion and led me to pursure a B.Sc. and M.Sc. in plant ecology. It was during my academic training that I was introduced to data science and I was quickly drawn to the loop of processing, exploring, and analyzing data. I am currently working as a data analyst with the Plant Health Business Line of the Canadian Food Inspection Agency where I leverage open source tools and government data to identify and qualify risks to Canada’s plant health.\n\nExperience\n\nScience Specialist | Canadian Food Inspection Agency 2021 – Present\n\n\nAt the CFIA, my primary objective is to enable the agency to identify emerging threats to Canada’s silvicultural, horticultural, and agricultural industries. In my work, I use open source tools like R and Python to develop spatial predictive that demonstrate where novel plant pests may spread throughout Canada.\n\n\nEducation\n\nMaster of Science | McGill University 2018 – 2020\n\n\nMy graduate thesis evaluted the longstanding hypotheses that species range limits are set by contrasting forces at opposing edges of the species’ range. I tested if the range of an annual herb, Rhinanthus minor, is set by abiotic forces at the high-elevation range limit and by biotic forces at the low-elevation range limit. I conducted these tests in the scenic Rocky Mountains of Alberta, Canada.\n\nBachelor of Science | University of Guelph 2013 – 2017\n\n\nMy undergradute thesis centered on understanding how plants engaging in symbiosis with mycorrhizal fungi modify the structure of their roots. Mycorrhizal fungi supply nutrients to their host plants and as such, the expectation was that plants would forego the energetic cost of developing their own complex root systems.\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n Back to top"
+  }
+]
