@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: profile.jpg
+# image: profile.jpg
 about:
   template: jolla
   links:
@@ -16,4 +16,6 @@ about:
 
 ---
 
-About this blog
+Hi there, my name is Josh Persi and I'm a data scientist. 
+
+I love to learn and will share what I learn through this blog. 

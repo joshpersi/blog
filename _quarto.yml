@@ -2,14 +2,18 @@ project:
   type: website
 
 website:
-  title: "blog"
+  title: "Josh Persi"
+  search: false
   navbar:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/joshpersi
+      - icon: twitter-x
+        href: https://x.com/joshuapersi
+      - icon: linkedin
+        href: https://www.linkedin.com/in/josh-persi
+  
 format:
   html:
     theme: cosmo
