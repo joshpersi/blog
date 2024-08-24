@@ -4,6 +4,9 @@ title: "About"
 about:
   template: jolla
   links:
+    - icon: mastodon
+      text: Mastodon
+      href: https://fosstodon.org/@joshpersi
     - icon: twitter
       text: Twitter
       href: https://twitter.com

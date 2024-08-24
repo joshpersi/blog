@@ -9,6 +9,9 @@ website:
   navbar:
     right:
       - about.qmd
+      - icon: mastodon
+        href: https://fosstodon.org/@joshpersi
+        aria-label: Mastodon
       - icon: github
         href: https://github.com/joshpersi
       - icon: twitter-x
