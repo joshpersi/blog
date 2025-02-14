@@ -5,8 +5,41 @@ date: "2024-05-11"
 categories: [news]
 ---
 
-This is the first post in a Quarto blog. Welcome!
+```{ojs}
+data = d3.csv("https://raw.githubusercontent.com/quarto-dev/quarto-web/main/docs/interactive/ojs/palmer-penguins.csv")
 
-![](thumbnail.jpg)
+viewof bill_length_min = Inputs.range(
+  [32, 50], 
+  {value: 35, step: 1, label: "Bill length (min):"}
+)
+viewof islands = Inputs.checkbox(
+  ["Torgersen", "Biscoe", "Dream"], 
+  { value: ["Torgersen", "Biscoe"], 
+    label: "Islands:"
+  }
+)
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+filtered = data.filter(function(penguin) {
+  return bill_length_min < penguin.bill_length_mm &&
+         islands.includes(penguin.island);
+})
+
+
+Plot.rectY(filtered, 
+  Plot.binX(
+    {y: "count"}, 
+    {x: "body_mass_g", fill: "species", thresholds: 20}
+  ))
+  .plot({
+    facet: {
+      data: filtered,
+      x: "sex",
+      y: "species",
+      marginRight: 80
+    },
+    marks: [
+      Plot.frame(),
+    ]
+  }
+)
+```
