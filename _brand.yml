@@ -1,0 +1,19 @@
+color:
+  palette:
+    oxford-blue: "#002147"
+    seasalt: "#F9FAFB"
+  background: seasalt
+  foreground: oxford-blue
+  primary: oxford-blue
+
+typography:
+  fonts:
+    - family: Noto Serif
+      source: google
+    - family: Noto Sans
+      source: google
+    - family: Noto Sans Mono
+      source: google  
+  base: Noto Sans
+  headings: Noto Serif
+  monospace: Noto Sans Mono
