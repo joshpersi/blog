@@ -15,7 +15,9 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/josh-persi
   
-format: html
+format: 
+  html:
+    highlight-style: nord
 
 editor: source
 
