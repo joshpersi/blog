@@ -25,12 +25,13 @@ color:
   primary:
     light: nord1
     dark:  nord1
-  secondary:
-    light: nord15
   success: nord14
   warning: nord13
   danger:  nord11
   info:    nord15
+  link: 
+    light: nord10
+    dark:  nord8
 
 typography:
   fonts:

@@ -1,5 +1,6 @@
 ---
 title: "About"
+image: headshot.jpg
 about:
   template: jolla
   links:
