@@ -1,172 +1,159 @@
-#set page(margin: 1cm)
-
-#set text(font: "Noto Serif")
-
-#text(size: 32pt, tracking: 0.05cm)[Josh Persi]  
-
-#v(-20pt)
-
-#text(size: 16pt)[Data Scientist]
-
-#table(
-  columns: 6,
-  stroke: none,
-  column-gutter: 1em,
-  inset: (x: 0pt),
-  [*Phone*], [(604) 809-8648],
-  [*GitHub*], [#link("github.com/joshpersi")],
-  [*Email*], [#link("joshpersi@protonmail.com")],
-  [*LinkedIn*], [#link("linkedin.com/in/josh-persi")],
-  [*Blog*], [#link("joshpersi.github.io/blog")],
-  [*Bluesky*], [#link("@joshpersi.bsky.social")],
+#set page(
+  margin: 0.5in,
+  paper: "us-letter"
 )
 
-Data scientist with a passion 
-I am a self-taught data scientist with a formal background in the biological sciences. My current work with the Canadian Food Inspection Agency involves leveraging government, industry, and open-source data to model pest risks to plant health in Canada.  
+#set text(
+  font: "Noto Serif",
+  fill: rgb("#2E3440"),
+  size: 10pt,
+)
 
-= Experience
+#set par(justify: false)
 
-#grid(
-  columns: (1fr, 6fr),
-  [2022 -- Present],
-  [
-  #smallcaps([Science Specialist])
-  #v(-5pt)
-  #text(style: "oblique")[Canadian Food Inspection Agency]
-
-  - Provide analytics support to scientists and policy makers
+// Heading
+#align(center)[
+  #text(size: 25pt, weight: "bold")[Josh Persi]
+  #v(-20pt)
   
-  - Perform descriptive, predictive, diagnostic, and prescriptive analyses 
-
-  - Create reproducible reports, dashboards, and Shiny applications 
+  #text(size: 10pt)[
+    (604) 809-8648 | 
+    #link("mailto:joshpersi@gmail.com")[joshpersi\@gmail.com] | 
+    #link("https://linkedin.com/in/josh-persi")[linkedin.com/in/josh-persi] |
+    #link("https://github.com/joshpersi")[github.com/joshpersi]
   ]
-)
+]
 
-#grid(
-  columns: (1fr, 6fr),
-  [2021 -- 2021],
-  [
-  #smallcaps([Field Botanist])
-  #v(-5pt)
-  #text(style: "oblique")[Toronto Region Conservation Authority]
-
-  - Conduct biotic inventories of terrestrial and aquatic plants in the Toronto area
-  
-  - Identify taxa using dichotomous keys, morphological features, and habitat
-  ]
-)
-
-= Education
-
-#grid(
-  columns: (1fr, 6fr),
-  [2018 -- 2020],
-  [
-  #smallcaps([Master of Science])
-  #v(-5pt)
-  #text(style: "oblique")[McGill University]
-
-  *Thesis*: #link("https://escholarship.mcgill.ca/concern/theses/jh343x41s")[Elevational patterns in seed fates: experimental tests in the Rocky Mountains]
-  ]
-)
-
-#grid(
-  columns: (1fr, 6fr),
-  [2013 -- 2017],
-  [
-  #smallcaps([Bachelor of Science in Environmental Sciences])
-  #v(-5pt)
-  #text(style: "oblique")[University of Guelph]
-  
-  *Thesis*: #link("https://www.journals.uchicago.edu/doi/abs/10.1086/716783")[Influence of Arbuscular Mycorrhizal Fungi on Root Allocation and Morphology in Two _Medicago_ Species]
-  ]
-)
-
-= Skills
-
-#table(
-  columns: (1fr, 1fr, 1fr),
-  stroke: none,
-  column-gutter: 1em,
-  inset: (x: 0pt),
-  [- Natural language processing],
-  [- Machine learning],
-  [- Data engineering],
-  [- Shiny apps],
-  [- Workflow orchestration],
-  [- Environment management],
-  [- Data visualization],
-  [- Containerization],
-  [- Dashboarding],
-)
-
-// Define a function to create skill rating bars
-#let skill_bar(filled: 5, total: 5, fill_color: blue, empty_color: gray) = {
-  stack(
-    dir: ltr,
-    spacing: 2.5pt,
-    ..range(total).map(i => 
-      box(
-        width: 8pt, 
-        height: 8pt, 
-        fill: if i < filled { fill_color } else { empty_color }
-      )
-    )
-  )
+// Section heading function
+#let section(title) = {
+  v(5pt)
+  text(size: 12pt, weight: "bold")[#smallcaps(title)] 
+  v(-10pt)
+  line(length: 100%, stroke: (thickness: 0.5pt, paint: rgb("#2e3440")))
+  v(-10pt)
 }
 
-// Define skills data structure
-#let computer_languages = (
-  ("R", 5),
-  ("Git", 4),
-  ("SQL", 4), 
-  ("HTML", 3),
-  ("Bash", 3),
-  ("Python", 2),
-  ("Docker", 2),
-  ("CSS", 2),
-  ("JavaScript", 1),
-)
-
-// Create the skills section
-= Computer Languages
-
-#table(
-  columns: (1fr, 2fr) * 3, 
-  stroke: none,
-  align: (right + horizon, left + horizon) * 3,
-  inset: (x: 8pt, y: 4pt),
-  
-  ..computer_languages.chunks(3).map(chunk => 
-    chunk.map(((name, rating)) => (name, skill_bar(filled: rating)))
-  ).flatten()
-)
-
-// Option 1: Using a modified data structure with labels
-#let languages = (
-  ("English", 5, "Native proficiency"),
-  ("French", 2, "B-certified")
-)
-
-= Languages
-
-#table(
-  columns: (1fr, 2fr) * 3, // Only 2 columns since we have 2 languages
-  stroke: none,
-  align: (right + horizon, left + horizon) * 2,
-  inset: (x: 8pt, y: 4pt),
-  
-  [English], 
-  stack(
-    spacing: 4pt,
-    skill_bar(filled: 5),
-    text(size: 8pt, style: "italic")[Native proficiency]
-  ),
-  
-  [French], 
-  stack(
-    spacing: 4pt,
-    skill_bar(filled: 2),
-    text(size: 8pt, style: "italic")[B-certified]
+// Resume subheading function
+#let resume_heading(title, location, subtitle, date) = {
+  v(5pt)
+  grid(
+    columns: (1fr, auto),
+    gutter: 10pt,
+    text(weight: "bold")[#title],
+    text[#location],
   )
+  v(-7.5pt)
+  grid(
+    columns: (1fr, auto),
+    gutter: 10pt,
+    text(style: "italic", size: 10pt)[#subtitle],
+    text(style: "italic", size: 10pt)[#date],
+  )
+  v(-5pt)
+}
+
+// Project heading function
+#let project_heading(title, date) = {
+  v(5pt)
+  grid(
+    columns: (1fr, auto),
+    gutter: 10pt,
+    text(size: 10pt)[#title],
+    text(size: 10pt)[#date],
+  )
+  v(-5pt)
+}
+
+// Projects
+#section[Professional Summary]
+
+#lorem(50)
+#v(-5pt)
+
+// Technical Skills
+#section[Technical Skills]
+
+#pad(left: 0pt)[
+  #text(size: 10pt)[
+    *Languages*: R, Python, SQL (PL-SQL, T-SQL), HTML/CSS, JavaScript, Rust \
+    *Developer Tools*: Git, Docker, VS Code, Positron \
+    *Libraries*: dplyr, purrr, ggplot2, targets, sf, terra, leaflet
+  ]
+]
+
+// Education
+#section[Education]
+
+#resume_heading(
+  [McGill University],
+  [Montréal, QC],
+  [Master of Science, Department of Biology],
+  [Jan. 2018 -- Dec. 2020]
+)
+
+#resume_heading(
+  [University of Guelph],
+  [Guelph, ON],
+  [Bachelor of Science in Environmental Sciences, Department of Integrative Biology],
+  [Sep. 2013 -- Apr. 2017]
+)
+
+// Experience
+#section[Experience]
+
+#resume_heading(
+  [Science Specialist],
+  [Ottawa, ON],
+  [Canadian Food Inspection Agency],
+  [October 2021 -- Present]
+)
+
+#list(
+  indent: 10pt,
+  [#lorem(15)],
+  [#lorem(15)],
+  [#lorem(15)]
+)
+
+#resume_heading(
+  [Assistant Field Botanist],
+  [Toronto, ON],
+  [Toronto Region Conservation Authority],
+  [Apr. 2021 -- Oct. 2021]
+)
+
+#list(
+  indent: 10pt,
+  [#lorem(15)],
+  [#lorem(15)],
+  [#lorem(15)]
+)
+
+// Projects
+#section[Projects]
+
+#project_heading(
+  [*Project name* | _project tech stack_],
+  [June 2020 -- Present]
+)
+
+#list(
+  indent: 10pt,
+  [#lorem(15)],
+  [#lorem(15)],
+  [#lorem(15)],
+  [#lorem(15)]
+)
+
+#project_heading(
+  [*Project name* | _project tech stack_],
+  [May 2018 -- May 2020]
+)
+
+#list(
+  indent: 10pt,
+  [#lorem(15)],
+  [#lorem(15)],
+  [#lorem(15)],
+  [#lorem(15)]
 )
