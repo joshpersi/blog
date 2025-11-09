@@ -19,6 +19,7 @@ format:
   html:
     highlight-style: nord
     theme: style.css
+    code-overflow: wrap
 
 editor: source
 

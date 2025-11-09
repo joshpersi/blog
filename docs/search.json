@@ -1,10 +1,10 @@
 [
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
+    "objectID": "posts/01_plot_captions/index.html",
+    "href": "posts/01_plot_captions/index.html",
+    "title": "Adding captions to your {ggplot2} graphics",
     "section": "",
-    "text": "No posts yet! Come back soon!"
+    "text": "I have been trying to participate in community data-viz events like TidyTuesday and the 30DayMapChallenge for years now and finally got the gumption to do so recently. I’ve created and shared a handful of graphics so far and am having a lot of fun doing it, but I’m already realizing I have the need for some standardization to make the process smoother and faster.\nThe first things I’ve taken a crack at standardizing are the captions for the data source and my name. I want to include the data source in my graphics since it’s fair to the organization providing the data and transparent to anyone who views my graphics. As for the caption with my name, that’s just a bit of shameless self-promotion.\nI initially explored the caption parameter of ggplot2::labs(), but I also wanted to use this caption for additional detail about the graphic. If I included my data-source and author captions here, I’d be limited in their style and location.\nInstead, I’ve found a workflow based on grid::grid.draw() that works exactly as I want it to. I’ve rarely used the {grid} package in my previous work so I’m still learning a lot about it, but my current understanding is {ggplot2} is built, in part, on the base R {grid} package. Here is the workflow, in a nutshell:\ngrDevices::png(\"plot.png\", width = 6, height = 6, units = \"in\", res = 300)\n\nshowtext::showtext_auto()\nshowtext::showtext_opts(dpi = 300)\nsysfonts::font_add_google(\"Noto Sans\", \"Noto Sans\")\n\ncaption_text &lt;- stringr::str_wrap(\n  \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel condimentum libero. Ut vitae ornare nulla. Nam dapibus aliquam dolor nec malesuada. Maecenas placerat nec diam eu suscipit. Etiam nisi velit, lacinia gravida porttitor et, fringilla eu nulla. Mauris tristique eu nunc a ullamcorper. Aenean ultricies, libero at consequat ultricies, ex lacus ultricies massa, rutrum finibus odio nibh in magna. Duis iaculis in dui nec vulputate. Curabitur sagittis felis volutpat magna dapibus maximus. Suspendisse imperdiet non sem vel euismod. Suspendisse potenti. Sed in mattis eros, in scelerisque dui. Sed convallis risus sed leo pretium tempor. Nullam efficitur consequat ultricies.\",\n  90\n)\n\np &lt;- ggplot2::ggplot(penguins, ggplot2::aes(bill_dep, bill_len)) +\n  ggplot2::geom_point() +\n  ggplot2::labs(caption = caption_text) +\n  ggplot2::theme_light() +\n  ggplot2::theme(\n    plot.caption = ggplot2::element_text(hjust = 0),\n    plot.caption.position = \"plot\",\n    plot.margin = ggplot2::margin(0.25, 0.25, 0.375, 0.25, unit = \"in\"),\n    text = ggplot2::element_text(family = \"Noto Sans\")\n  )\n\nbase::print(p)\n\nadd_source_caption(p, \"An example data source\")\n\nadd_author_caption(p)\n\ngrDevices::dev.off()\nThe resulting graphic is below! The add_source_caption() and add_author_caption() functions are custom functions I created for my own personal utilities package that contains the grid::grid.draw() bit and is available on Github."
   },
   {
     "objectID": "about.html",
@@ -18,6 +18,6 @@
     "href": "index.html",
     "title": "blog",
     "section": "",
-    "text": "Welcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nNov 2, 2025\n\n\nJosh Persi\n\n\n\n\n\nNo matching items"
+    "text": "Adding captions to your {ggplot2} graphics\n\n\n\ndata visualization\n\n\n\n\n\n\n\n\n\nNov 8, 2025\n\n\nJosh Persi\n\n\n\n\n\nNo matching items"
   }
 ]

@@ -1,8 +1,0 @@
----
-title: "Welcome To My Blog"
-author: "Josh Persi"
-date: "2025-11-02"
-categories: [news]
----
-
-No posts yet! Come back soon!
