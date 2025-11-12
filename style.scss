@@ -18,20 +18,12 @@
     --nord15: #b48ead;
 }
 
-/* div.quarto-about-jolla img.round {
-    border-radius: 15% !important;
-} */
-
 span.menu-text {
     color: var(--bs-navbar-brand-color) !important;
 }
 
 span.menu-text:hover {
     color: var(--bs-navbar-brand-hover-color) !important;
-}
-
-code {
-    color: var(--nord5) !important;
 }
 
 code,
@@ -43,4 +35,8 @@ h3 code {
 
 div.quarto-post .listing-categories .listing-category {
     margin-top: 8px !important;
+}
+
+a.no-external {
+    line-height: var(--bs-body-line-height);
 }
