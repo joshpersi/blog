@@ -14,7 +14,7 @@ I initially explored the caption parameter of `ggplot2::labs()`, but I also want
 Instead, I've found a workflow based on `grid::grid.draw()` that works exactly as I want it to. I've rarely used the `{grid}` package in my previous work so I'm still learning a lot about it, but my current understanding is `{ggplot2}` is built, in part, on the base R `{grid}` package. Here is the workflow, in a nutshell: 
 
 ```{.r}
-grDevices::png("plot.png", width = 6, height = 6, units = "in", res = 300)
+ragg::agg_png("plot.png", width = 6, height = 6, units = "in", res = 300)
 
 showtext::showtext_auto()
 showtext::showtext_opts(dpi = 300)
@@ -26,14 +26,16 @@ caption_text <- stringr::str_wrap(
 )
 
 p <- ggplot2::ggplot(penguins, ggplot2::aes(bill_dep, bill_len)) +
-  ggplot2::geom_point() +
+  ggplot2::geom_point(color = "#3b4252") +
   ggplot2::labs(caption = caption_text) +
   ggplot2::theme_light() +
   ggplot2::theme(
     plot.caption = ggplot2::element_text(hjust = 0),
     plot.caption.position = "plot",
     plot.margin = ggplot2::margin(0.25, 0.25, 0.375, 0.25, unit = "in"),
-    text = ggplot2::element_text(family = "Noto Sans")
+    text = ggplot2::element_text(family = "Noto Sans", color = "#3b4252"),
+    panel.background = ggplot2::element_rect(fill = "#e5e9f0"),
+    plot.background = ggplot2::element_rect(fill = "#e5e9f0", color = "#e5e9f0")
   )
 
 base::print(p)
