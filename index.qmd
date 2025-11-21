@@ -1,5 +1,5 @@
 ---
-title: "blog"
+title: "Blog"
 listing:
   contents: posts
   sort: "date desc"
@@ -7,6 +7,7 @@ listing:
   categories: true
   sort-ui: false
   filter-ui: false
+  fields: [image, date, title, categories, author, reading-time, description]
 page-layout: full
 title-block-banner: false
 ---
