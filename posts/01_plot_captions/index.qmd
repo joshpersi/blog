@@ -1,8 +1,8 @@
 ---
-title: "Adding captions to your `{ggplot2}` graphics"
+title: "Controlling source and author attributions in your `{ggplot2}` graphics"
 author: "Josh Persi"
 date: "2025-11-08"
-categories: [data visualization]
+categories: [R, data visualization]
 ---
 
 I have been trying to participate in community data-viz events like [TidyTuesday](https://bsky.app/hashtag/TidyTuesday) and the [30DayMapChallenge](https://bsky.app/hashtag/30DayMapchallenge) for years now and finally got the gumption to do so recently. I've created and shared a handful of graphics so far and am having a lot of fun doing it, but I'm already realizing I have the need for some standardization to make the process smoother and faster. 
@@ -16,39 +16,29 @@ Instead, I've found a workflow based on `grid::grid.draw()` that works exactly a
 ```{.r}
 ragg::agg_png("plot.png", width = 6, height = 6, units = "in", res = 300)
 
-showtext::showtext_auto()
-showtext::showtext_opts(dpi = 300)
-sysfonts::font_add_google("Noto Sans", "Noto Sans")
+utilities::setup_showtext()
 
-caption_text <- stringr::str_wrap(
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel condimentum libero. Ut vitae ornare nulla. Nam dapibus aliquam dolor nec malesuada. Maecenas placerat nec diam eu suscipit. Etiam nisi velit, lacinia gravida porttitor et, fringilla eu nulla. Mauris tristique eu nunc a ullamcorper. Aenean ultricies, libero at consequat ultricies, ex lacus ultricies massa, rutrum finibus odio nibh in magna. Duis iaculis in dui nec vulputate. Curabitur sagittis felis volutpat magna dapibus maximus. Suspendisse imperdiet non sem vel euismod. Suspendisse potenti. Sed in mattis eros, in scelerisque dui. Sed convallis risus sed leo pretium tempor. Nullam efficitur consequat ultricies.",
-  90
-)
+caption_text <- stringr::str_wrap(lorem::ipsum(sentences = 5), 90)
 
 p <- ggplot2::ggplot(penguins, ggplot2::aes(bill_dep, bill_len)) +
-  ggplot2::geom_point(color = "#3b4252") +
+  ggplot2::geom_point(color = utilities::nord_palette["nord0"]) +
   ggplot2::labs(caption = caption_text) +
-  ggplot2::theme_light() +
-  ggplot2::theme(
-    plot.caption = ggplot2::element_text(hjust = 0),
-    plot.caption.position = "plot",
-    plot.margin = ggplot2::margin(0.25, 0.25, 0.375, 0.25, unit = "in"),
-    text = ggplot2::element_text(family = "Noto Sans", color = "#3b4252"),
-    panel.background = ggplot2::element_rect(fill = "#e5e9f0"),
-    plot.background = ggplot2::element_rect(fill = "#e5e9f0", color = "#e5e9f0")
-  )
+  utilities::theme_custom()
 
 base::print(p)
 
-add_source_caption(p, "An example data source")
+utilities::add_source_caption(p, "An example data source")
 
-add_author_caption(p)
+utilities::add_author_caption(p)
 
 grDevices::dev.off()
 ```
 
 The resulting graphic is below! The `add_source_caption()` and `add_author_caption()` functions are custom functions I created for my own [personal utilities](https://github.com/joshpersi/utilities) package that contains the `grid::grid.draw()` bit and is available on Github. 
 
+::: {.card}
+
 ![](plot.png)
 
+:::
 

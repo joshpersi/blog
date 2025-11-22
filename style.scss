@@ -51,6 +51,14 @@ div.quarto-about-trestles .about-entity {
     border-radius: .25rem !important;
 }
 
+div.card {
+    border-color: var(--nord0) !important;
+}
+
 div.quarto-post .thumbnail img {
     border-radius: .25rem !important;
+}
+
+div.card p {
+    margin-bottom: 0 !important;
 }

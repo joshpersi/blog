@@ -4,6 +4,8 @@ project:
 
 website:
   title: "Josh Persi"
+  site-url: https://joshpersi.github.io/blog/
+  description: "Josh Persi's data science blog"
   search: false
   navbar:
     right:
@@ -25,4 +27,3 @@ format:
     respect-user-color-scheme: true
 
 editor: source
-

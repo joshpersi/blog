@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Josh Persi</title>
+<link>https://joshpersi.github.io/blog/</link>
+<atom:link href="https://joshpersi.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
+<description>Josh Persi&#39;s data science blog</description>
+<generator>quarto-1.8.25</generator>
+<lastBuildDate>Sat, 08 Nov 2025 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>Controlling source and author attributions in your {ggplot2} graphics</title>
+  <dc:creator>Josh Persi</dc:creator>
+  <link>https://joshpersi.github.io/blog/posts/01_plot_captions/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I have been trying to participate in community data-viz events like <a href="https://bsky.app/hashtag/TidyTuesday">TidyTuesday</a> and the <a href="https://bsky.app/hashtag/30DayMapchallenge">30DayMapChallenge</a> for years now and finally got the gumption to do so recently. I’ve created and shared a handful of graphics so far and am having a lot of fun doing it, but I’m already realizing I have the need for some standardization to make the process smoother and faster.</p>
+<p>The first things I’ve taken a crack at standardizing are the captions for the data source and my name. I want to include the data source in my graphics since it’s fair to the organization providing the data and transparent to anyone who views my graphics. As for the caption with my name, that’s just a bit of shameless self-promotion.</p>
+<p>I initially explored the caption parameter of <code>ggplot2::labs()</code>, but I also wanted to use this caption for additional detail about the graphic. If I included my data-source and author captions here, I’d be limited in their style and location.</p>
+<p>Instead, I’ve found a workflow based on <code>grid::grid.draw()</code> that works exactly as I want it to. I’ve rarely used the <code>{grid}</code> package in my previous work so I’m still learning a lot about it, but my current understanding is <code>{ggplot2}</code> is built, in part, on the base R <code>{grid}</code> package. Here is the workflow, in a nutshell:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">ragg<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">agg_png</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"plot.png"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">width =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">height =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">units =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"in"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">res =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">300</span>)</span>
+<span id="cb1-2"></span>
+<span id="cb1-3">utilities<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setup_showtext</span>()</span>
+<span id="cb1-4"></span>
+<span id="cb1-5">caption_text <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> stringr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_wrap</span>(lorem<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ipsum</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sentences =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>)</span>
+<span id="cb1-6"></span>
+<span id="cb1-7">p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> ggplot2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins, ggplot2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(bill_dep, bill_len)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-8">  ggplot2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> utilities<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span>nord_palette[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nord0"</span>]) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-9">  ggplot2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">caption =</span> caption_text) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-10">  utilities<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_custom</span>()</span>
+<span id="cb1-11"></span>
+<span id="cb1-12">base<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">print</span>(p)</span>
+<span id="cb1-13"></span>
+<span id="cb1-14">utilities<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">add_source_caption</span>(p, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"An example data source"</span>)</span>
+<span id="cb1-15"></span>
+<span id="cb1-16">utilities<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">add_author_caption</span>(p)</span>
+<span id="cb1-17"></span>
+<span id="cb1-18">grDevices<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dev.off</span>()</span></code></pre></div></div>
+<p>The resulting graphic is below! The <code>add_source_caption()</code> and <code>add_author_caption()</code> functions are custom functions I created for my own <a href="https://github.com/joshpersi/utilities">personal utilities</a> package that contains the <code>grid::grid.draw()</code> bit and is available on Github.</p>
+<div class="card">
+<p><img src="https://joshpersi.github.io/blog/posts/01_plot_captions/plot.png" class="img-fluid"></p>
+</div>
+
+
+
+ ]]></description>
+  <category>R</category>
+  <category>data visualization</category>
+  <guid>https://joshpersi.github.io/blog/posts/01_plot_captions/</guid>
+  <pubDate>Sat, 08 Nov 2025 08:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

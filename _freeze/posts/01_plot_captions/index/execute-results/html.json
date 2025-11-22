@@ -1,0 +1,15 @@
+{
+  "hash": "ddbdb7f85ed3d5eb9fe8af78942aa02f",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Adding captions to your `{ggplot2}` graphics\"\nauthor: \"Josh Persi\"\ndate: \"2025-11-08\"\ncategories: [data visualization]\n---\n\nI have been trying to participate in community data-viz events like [TidyTuesday](https://bsky.app/hashtag/TidyTuesday) and the [30DayMapChallenge](https://bsky.app/hashtag/30DayMapchallenge) for years now and finally got the gumption to do so recently. I've created and shared a handful of graphics so far and am having a lot of fun doing it, but I'm already realizing I have the need for some standardization to make the process smoother and faster. \n\nThe first things I've taken a crack at standardizing are the captions for the data source and my name. I want to include the data source in my graphics since it's fair to the organization providing the data and transparent to anyone who views my graphics. As for the caption with my name, that's just a bit of shameless self-promotion. \n\nI initially explored the caption parameter of `ggplot2::labs()`, but I also wanted to use this caption for additional detail about the graphic. If I included my data-source and author captions here, I'd be limited in their style and location. \n\nInstead, I've found a workflow based on `grid::grid.draw()` that works exactly as I want it to. I've rarely used the `{grid}` package in my previous work so I'm still learning a lot about it, but my current understanding is `{ggplot2}` is built, in part, on the base R `{grid}` package. Here is the workflow, in a nutshell: \n\n\n::: {.cell}\n\n```{.r .cell-code}\nragg::agg_png(\"plot.png\", width = 6, height = 6, units = \"in\", res = 300)\n\nutilities::setup_showtext()\n\ncaption_text <- stringr::str_wrap(lorem::ipsum(sentences = 10), 90)\n\np <- ggplot2::ggplot(penguins, ggplot2::aes(bill_dep, bill_len)) +\n  ggplot2::geom_point(color = \"#3b4252\") +\n  ggplot2::labs(caption = caption_text) +\n  ggplot2::theme_light() +\n  utilities::theme_custom()\n\nbase::print(p)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`).\n```\n\n\n:::\n\n```{.r .cell-code}\nutilities::add_source_caption(p, \"An example data source\")\n\nutilities::add_author_caption(p)\n\ngrDevices::dev.off()\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\npng \n  2 \n```\n\n\n:::\n:::\n\n\nThe resulting graphic is below! The `add_source_caption()` and `add_author_caption()` functions are custom functions I created for my own [personal utilities](https://github.com/joshpersi/utilities) package that contains the `grid::grid.draw()` bit and is available on Github. \n\n![](plot.png)\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
