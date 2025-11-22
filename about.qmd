@@ -19,6 +19,6 @@ Hello and thank you for visiting my blog!
 
 My name is Josh and I'm passionate about the field of data science. Like many others, my education and early career was in a separate discipline entirely. I studied plant ecology throughout university and was a field botanist for a short time before I landed my first data-science job. I started this blog a few years later so I could share share all the interesting data-science stuff I was learning about. 
 
-If you'd like to contact me, you're welcome to reach my on [BlueSky](https://bsky.app/profile/joshpersi.bsky.social). I'm also active on the [Data Science Learning Community](https://dslc.io/) in case you see me there. 
+If you'd like to contact me, you're welcome to reach me on [Bluesky](https://bsky.app/profile/joshpersi.bsky.social). I'm also active on the [Data Science Learning Community](https://dslc.io/) in case you see me there. 
 
 Outside of data science, I love to cook and bake (almost exclusively bread), to hike, and to play pick-up basketball every Wednesday night.
