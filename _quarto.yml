@@ -17,6 +17,8 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/josh-persi
   
+code-annotations: hover
+
 format: 
   html:
     engine: knitr

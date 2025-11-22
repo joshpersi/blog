@@ -62,3 +62,19 @@ div.quarto-post .thumbnail img {
 div.card p {
     margin-bottom: 0 !important;
 }
+
+div.card {
+    margin-bottom: 1rem !important;
+}
+
+#code-annotation-line-highlight {
+    margin-left: 0 !important;
+    width: calc(100%) !important;
+    z-index: 5 !important;
+}
+
+#code-annotation-line-highlight-gutter {
+    border-top: none !important;
+    border-bottom: none !important;
+    background-color: transparent !important;
+}
