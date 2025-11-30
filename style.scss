@@ -78,3 +78,119 @@ div.card {
     border-bottom: none !important;
     background-color: transparent !important;
 }
+
+div.quarto-post .listing-categories .listing-category {
+    color: var(--nord0) !important;
+    background-color: var(--nord5) !important;
+    border: solid 1px var(--nord0) !important;
+}
+
+.termsfeed-com---palette-light.termsfeed-com---nb {
+    background-color: var(--nord5) !important;
+    border: solid 1px var(--nord0) !important;
+    color: var(--nord1) !important;
+    font-family: "Noto Sans" !important;
+    max-width: 40% !important;
+    border-radius: .25rem !important;
+}
+
+.termsfeed-com---nb .cc-nb-main-container {
+    padding: 1rem !important;
+}
+
+.termsfeed-com---palette-light .cc-nb-okagree {
+    color: var(--nord0) !important;
+    background-color: var(--nord14) !important;
+}
+
+// Targets the 'change my preferences' button of the cookie tracker
+.termsfeed-com---palette-light .cc-nb-changep {
+    color: var(--nord0) !important;
+    background-color: var(--nord13) !important;
+}
+
+// Target the font of the cookie preference center
+.termsfeed-com---palette-light .cc-pc-container {
+    font-family: "Noto Sans" !important;
+    color: var(--nord0) !important;
+    border-radius: .25rem .25rem .25rem .25rem !important
+}
+
+// Targets the head of the cookie preferences center
+.termsfeed-com---palette-light .cc-pc-head {
+    background-color: var(--nord4) !important;
+    color: var(--nord0) !important;
+    border-radius: .25rem .25rem 0 0 !important
+}
+
+// Targets the body content of the cookie preference center
+.termsfeed-com---palette-light .cc-cp-body-content {
+    background-color: var(--nord4) !important;
+    color: var(--nord0) !important;
+}
+
+// Targets the footer of the cookie preference center
+.termsfeed-com---palette-light .cc-cp-foot {
+    background-color: var(--nord4) !important;
+    color: var(--nord0) !important;
+    border-radius: 0 0 .25rem .25rem !important;
+}
+
+// Targets the save my preferences button on the cookie preference center
+.termsfeed-com---palette-light .cc-cp-foot-save {
+    color: var(--nord0) !important;
+    background-color: var(--nord14) !important;
+}
+
+// Targets the active tab of the cookie preference center
+.termsfeed-com---palette-light .cc-cp-body-tabs-item[active=true] button {
+    background-color: var(--nord5) !important;
+}
+
+// Targets the inactive tabs of the cookie preference center
+.termsfeed-com---palette-light .cc-cp-body-tabs-item {
+    background-color: var(--nord4) !important;
+}
+
+.termsfeed-com---palette-light .cc-nb-title .termsfeed-com---palette-light .cc-nb-text,
+.termsfeed-com---palette-light .cc-pc-head-title-headline,
+.termsfeed-com---palette-light .cc-cp-body-content-entry-title,
+.termsfeed-com---palette-light .cc-cp-body-content-entry-text,
+.termsfeed-com---palette-light .cc-cp-body-tabs-item[active=true] button,
+.termsfeed-com---palette-light .cc-cp-foot-byline,
+.termsfeed-com---palette-light .cc-pc-head-lang select {
+    color: var(--nord0) !important;
+}
+
+.termsfeed-com---palette-light .cc-cp-body-tabs-item-link {
+    color: var(--nord0) !important
+}
+
+.termsfeed-com---palette-light .cc-cp-body-tabs {
+    background-color: var(--nord4) !important;
+}
+
+.termsfeed-com---palette-light .cc-pc-head-lang select {
+    border-radius: .25rem !important;
+    background-color: var(--nord6) !important;
+}
+
+.termsfeed-com---pc-dialog input[type=checkbox].cc-custom-checkbox:checked+label:before {
+    background: var(--nord14) !important;
+}
+
+.termsfeed-com---pc-dialog input[type=checkbox].cc-custom-checkbox+label:before {
+    background: var(--nord6) !important;
+}
+
+.termsfeed-com---pc-dialog input[type=checkbox].cc-custom-checkbox+label:after {
+    background: var(--nord3) !important
+}
+
+.termsfeed-com---palette-light .cc-pc-head-close {
+    background-color: var(--nord0) !important;
+}
+
+.termsfeed-com---pc-dialog .cc-cp-foot-byline a {
+    color: var(--nord10) !important
+}

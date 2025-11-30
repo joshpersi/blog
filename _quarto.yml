@@ -7,6 +7,11 @@ website:
   site-url: https://joshpersi.github.io/blog/
   description: "Josh Persi's data science blog"
   search: false
+  cookie-consent:
+    type: implied
+    style: simple
+  google-analytics: 
+    tracking-id: G-L48M6M6N6G
   navbar:
     right:
       - about.qmd
@@ -23,7 +28,9 @@ format:
   html:
     engine: knitr
     highlight-style: nord
-    theme: style.scss
+    theme: 
+      light: style.scss
+      dark: style-dark.scss
     code-link: true
     code-overflow: scroll
     respect-user-color-scheme: true
