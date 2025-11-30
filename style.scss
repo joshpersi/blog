@@ -194,3 +194,43 @@ div.quarto-post .listing-categories .listing-category {
 .termsfeed-com---pc-dialog .cc-cp-foot-byline a {
     color: var(--nord10) !important
 }
+
+div.callout-tip.callout {
+    border-left-color: var(--nord14) !important;
+}
+
+div.callout-tip.callout-style-default>.callout-header {
+    background-color: color-mix(in srgb, var(--nord14) 75%, white 25%) !important;
+}
+
+div.callout-important.callout {
+    border-left-color: var(--nord11) !important;
+}
+
+div.callout-important.callout-style-default>.callout-header {
+    background-color: color-mix(in srgb, var(--nord11) 75%, white 25%) !important;
+}
+
+div.callout-warning.callout {
+    border-left-color: var(--nord13) !important;
+}
+
+div.callout-warning.callout-style-default>.callout-header {
+    background-color: color-mix(in srgb, var(--nord13) 75%, white 25%) !important;
+}
+
+div.callout-caution.callout {
+    border-left-color: var(--nord12) !important;
+}
+
+div.callout-caution.callout-style-default>.callout-header {
+    background-color: color-mix(in srgb, var(--nord12) 75%, white 25%) !important;
+}
+
+div.callout-note.callout {
+    border-left-color: var(--nord10) !important;
+}
+
+div.callout-note.callout-style-default>.callout-header {
+    background-color: color-mix(in srgb, var(--nord10) 75%, white 25%) !important;
+}
