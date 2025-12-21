@@ -16,6 +16,7 @@
     --nord13: #ebcb8b;
     --nord14: #a3be8c;
     --nord15: #b48ead;
+    --bs-table-striped-bg: var(--nord5) !important;
 }
 
 span.menu-text {
@@ -233,4 +234,11 @@ div.callout-note.callout {
 
 div.callout-note.callout-style-default>.callout-header {
     background-color: color-mix(in srgb, var(--nord10) 75%, white 25%) !important;
+}
+
+table.caption-top.table.table-sm.table-striped.small {
+    background-color: var(--nord5) !important;
+    font-family: var(--quarto-font-monospace) !important;
+    color: var(--nord1) !important;
+    margin-left: 0px !important
 }
