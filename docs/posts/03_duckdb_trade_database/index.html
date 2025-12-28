@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Josh Persi">
+<meta name="dcterms.date" content="2025-12-28">
 
-<title>Blog – Josh Persi</title>
+<title>A Canadian trade database built with DuckDB – Josh Persi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,31 +22,63 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-1098e3bfd611124e23cc333e7d204cd9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-1098e3bfd611124e23cc333e7d204cd9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-1098e3bfd611124e23cc333e7d204cd9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c89325333f6ac8263e1a007cb3d7bf3f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f51730d952b305a79956081faab67287.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-c89325333f6ac8263e1a007cb3d7bf3f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1098e3bfd611124e23cc333e7d204cd9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-1098e3bfd611124e23cc333e7d204cd9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1098e3bfd611124e23cc333e7d204cd9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ebcc2fb5613ff1b186099f45e11208e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-da77825e169c131cb3400dfac7a8c160.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ebcc2fb5613ff1b186099f45e11208e7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -60,35 +94,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-categories','listing-reading-time','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-L48M6M6N6G"></script>
 
 <script type="text/plain" cookie-consent="tracking">
@@ -117,39 +122,10 @@ cookieconsent.run({
 </script> 
   
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+</head>
 
-<link rel="alternate" type="application/rss+xml" title="Josh Persi" href="index.xml" data-external="1"></head>
-
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -327,9 +303,9 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Josh Persi</span>
     </a>
   </div>
@@ -339,7 +315,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -366,26 +342,40 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="ZGF0YSUyMGVuZ2luZWVyaW5n">data engineering <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZGF0YSUyMHZpc3VhbGl6YXRpb24=">data visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RHVja0RC">DuckDB <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Ug==">R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c3RhdGlzdGljcw==">statistics <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Blog</h1>
-</div>
+<h1 class="title">A Canadian trade database built with DuckDB</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">DuckDB</div>
+    <div class="quarto-category">data engineering</div>
+  </div>
+  </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Josh Persi </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 28, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -395,105 +385,190 @@ window.Quarto = {
 </header>
 
 
-
-
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="RHVja0RCJTJDZGF0YSUyMGVuZ2luZWVyaW5n" data-listing-date-sort="1766908800000" data-listing-file-modified-sort="1766954083775" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1365">
-<div class="thumbnail"><a href="./posts/03_duckdb_trade_database/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/03_duckdb_trade_database/index.html" class="no-external">A Canadian trade database built with DuckDB</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('RHVja0RC'); return false;">DuckDB</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YSUyMGVuZ2luZWVyaW5n'); return false;">data engineering</div>
-
+<p>If you haven’t heard of DuckDB, it’s essentially an open-source database system geared towards analytical, not transactional, workloads. Compared to other database systems, I have gravitated towards DuckDB because it:</p>
+<ol type="1">
+<li><p>Installs via a single executable and does not have any external dependencies</p></li>
+<li><p>Stores the entire database in a single <code>.duckdb</code> file</p></li>
+<li><p>Has APIs available in R, Python, and many other languages</p></li>
+</ol>
+<p>I’m currently reading the free book <a href="https://motherduck.com/duckdb-book-brief-orig/">DuckDB in Action</a> with some others in a book club organized by the <a href="https://dslc.io/">Data Science Learning Community</a>. We just covered the third chapter, which is all about creating tables, ingesting data, and running queries in a DuckDB database. While I was reading, I figured I’d try to cement my learning by creating my own database.</p>
+<p>The data for this database pertains to international trade between Canada and its trading partners. It includes all imports to Canada and exports from Canada from 1988 to 2025. The data is extracted from the <a href="https://open.canada.ca/data/en/dataset/2909a648-5753-4924-878a-b069392d9cde">Government of Canada’s Open Government Portal</a> via a <code>{targets}</code> pipeline. The code to download the data and recreate the database is available on <a href="https://github.com/joshpersi/blog/blob/main/posts/03_duckdb_trade_database">GitHub</a>.</p>
+<p>We can get a sense of the database with a statement containing the <code>DESCRIBE</code> clause. Here, we’ll run this statement using the <a href="https://duckdb.org/docs/stable/clients/cli/overview">command line interface</a> for DuckDB. As you can see in the output table, this database contains three fact tables (e.g.&nbsp;<code>fct_domestic_exports</code>) and several reference tables (e.g.&nbsp;<code>ref_countries</code>).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>duckdb <span class="kw">data</span><span class="op">/</span>can_trade.duckdb </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">database</span>, name, column_names <span class="kw">FROM</span> (DESCRIBE);</span></code></pre></div>
+<div class="column-page">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>database</th>
+<th>name</th>
+<th>column_names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>can_trade</td>
+<td>fct_domestic_exports</td>
+<td>[id, year, month, hs8, country, province, state, value, quantity, unit]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>fct_imports</td>
+<td>[id, year, month, hs10, country, province, state, value, quantity, unit]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>fct_total_exports</td>
+<td>[id, year, month, hs8, country, state, value, quantity, unit]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_countries</td>
+<td>[iso_2_alpha, iso_3_numeric, year_start, year_end, name_en, name_fr]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>ref_hs10_codes</td>
+<td>[hs10, unit, description_en, description_fr]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_hs2_codes</td>
+<td>[hs2, description_en, description_fr]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>ref_hs6_codes</td>
+<td>[hs6, description_en, description_fr]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_hs8_codes</td>
+<td>[hs8, unit, description_en, description_fr]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>ref_provinces</td>
+<td>[iso_2_alpha, iso_2_numeric, year_start, year_end, name_en, name_fr]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_states</td>
+<td>[iso_2_alpha, year_start, year_end, name_en, name_fr]</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="delink listing-description"><a href="./posts/03_duckdb_trade_database/index.html" class="no-external">
-If you haven’t heard of DuckDB, it’s essentially an open-source database system geared towards analytical, not transactional, workloads. Compared to other database systems…
-</a></div>
+<p><br></p>
+<p>We’ll walk through the code behind the <code>fct_domestic_exports</code> table. The chunk below is used to create the table and define its contents. Since this data doesn’t contain a natural key, we will create a sequence of integers, starting at one, that increments by one for each new row. This <code>id</code> column will be this table’s primary key and we also specify a foreign key for the <code>ref_hs_8_codes</code> table. Doing so ensures that the value of the reference column (e.g.&nbsp;`<code>actually exists within the pre-defined reference table</code>ref_countries`).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">SEQUENCE</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> domestic_exports_id <span class="kw">INCREMENT</span> <span class="kw">BY</span> <span class="dv">1</span> <span class="kw">MINVALUE</span> <span class="dv">1</span>;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> fct_domestic_exports (</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> <span class="kw">DEFAULT</span>(nextval(<span class="st">'domestic_exports_id'</span>)),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">year</span> <span class="dt">INTEGER</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">month</span> <span class="dt">INTEGER</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    hs8  <span class="dt">VARCHAR</span>(<span class="dv">8</span>) <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> ref_hs8_codes(hs8),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    country <span class="dt">VARCHAR</span>(<span class="dv">2</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    province <span class="dt">VARCHAR</span>(<span class="dv">2</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    state <span class="dt">VARCHAR</span>(<span class="dv">2</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">value</span> BIGINT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    quantity BIGINT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    unit <span class="dt">VARCHAR</span>(<span class="dv">3</span>) <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> ref_units_of_measurement(unit)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>With the table created, we can now insert data into it. The <code>{targets}</code> pipeline I built to download the data stores the 37 different <code>.csv</code> files for domestic exports in their own year-specific directories. We can easily read all this data using DuckDb’s <code>read_csv()</code> function and a bit of globbing. We’re also splitting the <code>YearMonth/AnnéeMois</code> column into separate year and month columns.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> fct_domestic_exports (</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">year</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">month</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    hs8,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    country,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    province,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    state,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">value</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    quantity,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    unit</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    (<span class="ot">"YearMonth/AnnéeMois"</span> <span class="op">/</span> <span class="dv">100</span>):<span class="ch">:INTEGER</span> <span class="kw">AS</span> <span class="dt">year</span>,   </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    (<span class="ot">"YearMonth/AnnéeMois"</span> % <span class="dv">100</span>):<span class="ch">:INTEGER</span> <span class="kw">AS</span> <span class="dt">month</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    HS8,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="ot">"Country/Pays"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    Province,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="ot">"State/État"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="ot">"Value/Valeur"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="ot">"Quantity/Quantité"</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="ot">"Unit of Measure/Unité de Mesure"</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    read_csv(<span class="ot">"data/data_unzipped/CIMT-CICM_Dom_Exp_*/ODPFN016_*.csv"</span>);</span></code></pre></div>
+<p>As an example of what we can do with this database, let’s see what commodities were the top exports, in terms of dollar value, in the year 2025. The query below does this and brings in the <code>ref_hs8_codes</code> table so we can have the description for each eight-digit HS code. According to the data, petroleum, gold, and natural gas were Canada’s highest-value exports in 2025.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    fct_domestic_exports.hs8,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    ref_hs8_codes.description_en,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(fct_domestic_exports.<span class="fu">value</span>) <span class="kw">AS</span> total_value</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> fct_domestic_exports <span class="kw">LEFT</span> <span class="kw">JOIN</span> ref_hs8_codes <span class="kw">USING</span> (hs8)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="dt">year</span> <span class="op">=</span> <span class="dv">2025</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> fct_domestic_exports.hs8, ref_hs8_codes.description_en</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> total_value <span class="kw">DESC</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div>
+<div class="column-page">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 79%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">hs8</th>
+<th style="text-align: left;">description_en</th>
+<th style="text-align: right;">total_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">27090010</td>
+<td style="text-align: left;">Petroleum &amp; bituminous min oils, crude, relative density &gt;= 0.9042 (&lt; 25°A.P.I.)</td>
+<td style="text-align: right;">79363806993</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">71081210</td>
+<td style="text-align: left;">Gold in unwrought forms non-monetary, cont by wt 99.95% or more of gold</td>
+<td style="text-align: right;">34475321088</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">27090029</td>
+<td style="text-align: left;">Petroleum &amp; bituminous min oils,crude,relative density &lt;0.9042 (&gt;=25°A.P.I.),nes</td>
+<td style="text-align: right;">26708461216</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">87032397</td>
+<td style="text-align: left;">Motor veh,transp pers,new,only spk-ign int combu pst eng, &gt; 1,500 &lt;=3,000 cc,nes</td>
+<td style="text-align: right;">12968983079</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">27112100</td>
+<td style="text-align: left;">Natural gas in gaseous state</td>
+<td style="text-align: right;">9572411667</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">31042000</td>
+<td style="text-align: left;">Potassium chloride, in packages weighing more than 10 kg</td>
+<td style="text-align: right;">6710939160</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="metadata">
-<a href="./posts/03_duckdb_trade_database/index.html" class="no-external">
-<div class="listing-date">
-Dec 28, 2025
-</div>
-<div class="listing-reading-time">7 min</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="UiUyQ3N0YXRpc3RpY3M=" data-listing-date-sort="1766217600000" data-listing-file-modified-sort="1766352572733" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="303">
-<div class="thumbnail"><a href="./posts/02_probability_mass_functions/index.html" class="no-external">
+<p><br></p>
+<p>If you’re interested in learning more about DuckDB, consider joining our <a href="https://motherduck.com/duckdb-book-brief-orig/">DuckDB in Action</a> book club over at the <a href="https://dslc.io/">Data Science Learning Community</a>. It’s completely free and a great way to share the learning journey with others.</p>
 
-<p class="card-img-top"><img src="posts\02_probability_mass_functions\plot.png"  class="thumbnail-image card-img"/></p>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/02_probability_mass_functions/index.html" class="no-external">Understanding the probability mass function</a>
-</h3>
-<div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c3RhdGlzdGljcw=='); return false;">statistics</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/02_probability_mass_functions/index.html" class="no-external">
-I recently started reading Think Stats by Allen B. Downey and am really enjoying it so far. The third chapter is dedicated to Probability Mass Functions (PMFs), which with…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/02_probability_mass_functions/index.html" class="no-external">
-<div class="listing-date">
-Dec 20, 2025
-</div>
-<div class="listing-reading-time">2 min</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="UiUyQ2RhdGElMjB2aXN1YWxpemF0aW9u" data-listing-date-sort="1763798400000" data-listing-file-modified-sort="1766351322249" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="373">
-<div class="thumbnail"><a href="./posts/01_plot_captions/index.html" class="no-external">
-
-<p class="card-img-top"><img src="posts\01_plot_captions\plot_01.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/01_plot_captions/index.html" class="no-external">Controlling source and author attributions in your <code>{ggplot2}</code> graphics</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">R</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YSUyMHZpc3VhbGl6YXRpb24='); return false;">data visualization</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/01_plot_captions/index.html" class="no-external">
-I have been trying to participate in community data-viz events like TidyTuesday and the 30DayMapChallenge for years now and recently got the gumption to do so. I’ve created…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/01_plot_captions/index.html" class="no-external">
-<div class="listing-date">
-Nov 22, 2025
-</div>
-<div class="listing-reading-time">2 min</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -516,68 +591,6 @@ Nov 22, 2025
       icon: icon
     };
     anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
-        }
-      }
-      return false;
-    }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
-    }
-    const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
-    });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
-    }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
         var filterRegex = new RegExp("https:\/\/joshpersi\.github\.io\/blog\/");

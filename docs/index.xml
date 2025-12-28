@@ -10,7 +10,456 @@
 <atom:link href="https://joshpersi.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Josh Persi&#39;s data science blog</description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Sat, 20 Dec 2025 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 28 Dec 2025 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>A Canadian trade database built with DuckDB</title>
+  <dc:creator>Josh Persi</dc:creator>
+  <link>https://joshpersi.github.io/blog/posts/03_duckdb_trade_database/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>If you haven’t heard of DuckDB, it’s essentially an open-source database system geared towards analytical, not transactional, workloads. Compared to other database systems, I have gravitated towards DuckDB because it:</p>
+<ol type="1">
+<li><p>Installs via a single executable and does not have any external dependencies</p></li>
+<li><p>Stores the entire database in a single <code>.duckdb</code> file</p></li>
+<li><p>Has APIs available in R, Python, and many other languages</p></li>
+</ol>
+<p>I’m currently reading the free book <a href="https://motherduck.com/duckdb-book-brief-orig/">DuckDB in Action</a> with some others in a book club organized by the <a href="https://dslc.io/">Data Science Learning Community</a>. We just covered the third chapter, which is all about creating tables, ingesting data, and running queries in a DuckDB database. While I was reading, I figured I’d try to cement my learning by creating my own database.</p>
+<p>The data for this database pertains to international trade between Canada and its trading partners. It includes all imports to Canada and exports from Canada from 1988 to 2025. The data is extracted from the <a href="https://open.canada.ca/data/en/dataset/2909a648-5753-4924-878a-b069392d9cde">Government of Canada’s Open Government Portal</a> via a <code>{targets}</code> pipeline. The code to download the data and recreate the database is available on <a href="https://github.com/joshpersi/blog/blob/main/posts/03_duckdb_trade_database">GitHub</a>.</p>
+<p>We can get a sense of the database with a statement containing the <code>DESCRIBE</code> clause. Here, we’ll run this statement using the <a href="https://duckdb.org/docs/stable/clients/cli/overview">command line interface</a> for DuckDB. As you can see in the output table, this database contains three fact tables (e.g.&nbsp;<code>fct_domestic_exports</code>) and several reference tables (e.g.&nbsp;<code>ref_countries</code>).</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1">duckdb <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">data</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span>can_trade.duckdb </span>
+<span id="cb1-2"></span>
+<span id="cb1-3"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">SELECT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">database</span>, name, column_names <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">FROM</span> (DESCRIBE);</span></code></pre></div>
+<div class="column-page">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>database</th>
+<th>name</th>
+<th>column_names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>can_trade</td>
+<td>fct_domestic_exports</td>
+<td>[id, year, month, hs8, country, province, state, value, quantity, unit]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>fct_imports</td>
+<td>[id, year, month, hs10, country, province, state, value, quantity, unit]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>fct_total_exports</td>
+<td>[id, year, month, hs8, country, state, value, quantity, unit]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_countries</td>
+<td>[iso_2_alpha, iso_3_numeric, year_start, year_end, name_en, name_fr]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>ref_hs10_codes</td>
+<td>[hs10, unit, description_en, description_fr]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_hs2_codes</td>
+<td>[hs2, description_en, description_fr]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>ref_hs6_codes</td>
+<td>[hs6, description_en, description_fr]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_hs8_codes</td>
+<td>[hs8, unit, description_en, description_fr]</td>
+</tr>
+<tr class="odd">
+<td>can_trade</td>
+<td>ref_provinces</td>
+<td>[iso_2_alpha, iso_2_numeric, year_start, year_end, name_en, name_fr]</td>
+</tr>
+<tr class="even">
+<td>can_trade</td>
+<td>ref_states</td>
+<td>[iso_2_alpha, year_start, year_end, name_en, name_fr]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<p>We’ll walk through the code behind the <code>fct_domestic_exports</code> table. The chunk below is used to create the table and define its contents. Since this data doesn’t contain a natural key, we will create a sequence of integers, starting at one, that increments by one for each new row. This <code>id</code> column will be this table’s primary key and we also specify a foreign key for the <code>ref_hs_8_codes</code> table. Doing so ensures that the value of the reference column (e.g.&nbsp;`<code>actually exists within the pre-defined reference table</code>ref_countries`).</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">CREATE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">SEQUENCE</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">IF</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">EXISTS</span> domestic_exports_id <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">INCREMENT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">BY</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">MINVALUE</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>;</span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">CREATE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">TABLE</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">IF</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">EXISTS</span> fct_domestic_exports (</span>
+<span id="cb2-4">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">id</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">INTEGER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">PRIMARY</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">KEY</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">DEFAULT</span>(nextval(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'domestic_exports_id'</span>)),</span>
+<span id="cb2-5">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">year</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">INTEGER</span>,</span>
+<span id="cb2-6">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">month</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">INTEGER</span>,</span>
+<span id="cb2-7">    hs8  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NULL</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">REFERENCES</span> ref_hs8_codes(hs8),</span>
+<span id="cb2-8">    country <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NULL</span>,</span>
+<span id="cb2-9">    province <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NULL</span>,</span>
+<span id="cb2-10">    state <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>),</span>
+<span id="cb2-11">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">value</span> BIGINT <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NULL</span>,</span>
+<span id="cb2-12">    quantity BIGINT <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NULL</span>,</span>
+<span id="cb2-13">    unit <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">NULL</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">REFERENCES</span> ref_units_of_measurement(unit)</span>
+<span id="cb2-14">);</span></code></pre></div>
+<p>With the table created, we can now insert data into it. The <code>{targets}</code> pipeline I built to download the data stores the 37 different <code>.csv</code> files for domestic exports in their own year-specific directories. We can easily read all this data using DuckDb’s <code>read_csv()</code> function and a bit of globbing. We’re also splitting the <code>YearMonth/AnnéeMois</code> column into separate year and month columns.</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">INSERT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">INTO</span> fct_domestic_exports (</span>
+<span id="cb3-2">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">year</span>, </span>
+<span id="cb3-3">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">month</span>,</span>
+<span id="cb3-4">    hs8,</span>
+<span id="cb3-5">    country,</span>
+<span id="cb3-6">    province,</span>
+<span id="cb3-7">    state,</span>
+<span id="cb3-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">value</span>,</span>
+<span id="cb3-9">    quantity,</span>
+<span id="cb3-10">    unit</span>
+<span id="cb3-11">) </span>
+<span id="cb3-12"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">SELECT</span> </span>
+<span id="cb3-13">    (<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"YearMonth/AnnéeMois"</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>):<span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">:INTEGER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">AS</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">year</span>,   </span>
+<span id="cb3-14">    (<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"YearMonth/AnnéeMois"</span> % <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>):<span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">:INTEGER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">AS</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">month</span>,</span>
+<span id="cb3-15">    HS8,</span>
+<span id="cb3-16">    <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"Country/Pays"</span>,</span>
+<span id="cb3-17">    Province,</span>
+<span id="cb3-18">    <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"State/État"</span>,</span>
+<span id="cb3-19">    <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"Value/Valeur"</span>,</span>
+<span id="cb3-20">    <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"Quantity/Quantité"</span>,</span>
+<span id="cb3-21">    <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"Unit of Measure/Unité de Mesure"</span></span>
+<span id="cb3-22"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">FROM</span> </span>
+<span id="cb3-23">    read_csv(<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">"data/data_unzipped/CIMT-CICM_Dom_Exp_*/ODPFN016_*.csv"</span>);</span></code></pre></div>
+<p>As an example of what we can do with this database, let’s see what commodities were the top exports, in terms of dollar value, in the year 2025. The query below does this and brings in the <code>ref_hs8_codes</code> table so we can have the description for each eight-digit HS code. According to the data, petroleum, gold, and natural gas were Canada’s highest-value exports in 2025.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">SELECT</span></span>
+<span id="cb4-2">    fct_domestic_exports.hs8,</span>
+<span id="cb4-3">    ref_hs8_codes.description_en,</span>
+<span id="cb4-4">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sum</span>(fct_domestic_exports.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">value</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">AS</span> total_value</span>
+<span id="cb4-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">FROM</span> fct_domestic_exports <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">LEFT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">JOIN</span> ref_hs8_codes <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">USING</span> (hs8)</span>
+<span id="cb4-6"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">WHERE</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">year</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2025</span></span>
+<span id="cb4-7"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">GROUP</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">BY</span> fct_domestic_exports.hs8, ref_hs8_codes.description_en</span>
+<span id="cb4-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">ORDER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">BY</span> total_value <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">DESC</span></span>
+<span id="cb4-9"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">LIMIT</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>;</span></code></pre></div>
+<div class="column-page">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 79%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">hs8</th>
+<th style="text-align: left;">description_en</th>
+<th style="text-align: right;">total_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">27090010</td>
+<td style="text-align: left;">Petroleum &amp; bituminous min oils, crude, relative density &gt;= 0.9042 (&lt; 25°A.P.I.)</td>
+<td style="text-align: right;">79363806993</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">71081210</td>
+<td style="text-align: left;">Gold in unwrought forms non-monetary, cont by wt 99.95% or more of gold</td>
+<td style="text-align: right;">34475321088</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">27090029</td>
+<td style="text-align: left;">Petroleum &amp; bituminous min oils,crude,relative density &lt;0.9042 (&gt;=25°A.P.I.),nes</td>
+<td style="text-align: right;">26708461216</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">87032397</td>
+<td style="text-align: left;">Motor veh,transp pers,new,only spk-ign int combu pst eng, &gt; 1,500 &lt;=3,000 cc,nes</td>
+<td style="text-align: right;">12968983079</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">27112100</td>
+<td style="text-align: left;">Natural gas in gaseous state</td>
+<td style="text-align: right;">9572411667</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">31042000</td>
+<td style="text-align: left;">Potassium chloride, in packages weighing more than 10 kg</td>
+<td style="text-align: right;">6710939160</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<p>If you’re interested in learning more about DuckDB, consider joining our <a href="https://motherduck.com/duckdb-book-brief-orig/">DuckDB in Action</a> book club over at the <a href="https://dslc.io/">Data Science Learning Community</a>. It’s completely free and a great way to share the learning journey with others.</p>
+
+
+
+ ]]></description>
+  <category>DuckDB</category>
+  <category>data engineering</category>
+  <guid>https://joshpersi.github.io/blog/posts/03_duckdb_trade_database/</guid>
+  <pubDate>Sun, 28 Dec 2025 08:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Understanding the probability mass function</title>
   <dc:creator>Josh Persi</dc:creator>

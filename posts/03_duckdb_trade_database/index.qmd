@@ -1,0 +1,122 @@
+---
+title: "A Canadian trade database built with DuckDB"
+author: "Josh Persi"
+date: "2025-12-28"
+categories: [DuckDB, data engineering]
+code-copy: false
+---
+
+If you haven't heard of DuckDB, it's essentially an open-source database system geared towards analytical, not transactional, workloads. Compared to other database systems, I have gravitated towards DuckDB because it:
+
+1. Installs via a single executable and does not have any external dependencies
+
+2. Stores the entire database in a single `.duckdb` file 
+
+3. Has APIs available in R, Python, and many other languages  
+
+I'm currently reading the free book [DuckDB in Action](https://motherduck.com/duckdb-book-brief-orig/) with some others in a book club organized by the [Data Science Learning Community](https://dslc.io/). We just covered the third chapter, which is all about creating tables, ingesting data, and running queries in a DuckDB database. While I was reading, I figured I'd try to cement my learning by creating my own database. 
+
+The data for this database pertains to international trade between Canada and its trading partners. It includes all imports to Canada and exports from Canada from 1988 to 2025. The data is extracted from the [Government of Canada's Open Government Portal](https://open.canada.ca/data/en/dataset/2909a648-5753-4924-878a-b069392d9cde) via a `{targets}` pipeline. The code to download the data and recreate the database is available on [GitHub](https://github.com/joshpersi/blog/blob/main/posts/03_duckdb_trade_database).
+
+We can get a sense of the database with a statement containing the `DESCRIBE` clause. Here, we'll run this statement using the [command line interface](https://duckdb.org/docs/stable/clients/cli/overview) for DuckDB. As you can see in the output table, this database contains three fact tables (e.g. `fct_domestic_exports`) and several reference tables (e.g. `ref_countries`).
+
+```{.sql}
+duckdb data/can_trade.duckdb 
+
+SELECT database, name, column_names FROM (DESCRIBE);
+```
+
+::: {.column-page}
+
+| database  |         name         |                               column_names                               |
+|-----------|----------------------|--------------------------------------------------------------------------|
+| can_trade | fct_domestic_exports | [id, year, month, hs8, country, province, state, value, quantity, unit]  |
+| can_trade | fct_imports          | [id, year, month, hs10, country, province, state, value, quantity, unit] |
+| can_trade | fct_total_exports    | [id, year, month, hs8, country, state, value, quantity, unit]            |
+| can_trade | ref_countries        | [iso_2_alpha, iso_3_numeric, year_start, year_end, name_en, name_fr]     |
+| can_trade | ref_hs10_codes       | [hs10, unit, description_en, description_fr]                             |
+| can_trade | ref_hs2_codes        | [hs2, description_en, description_fr]                                    |
+| can_trade | ref_hs6_codes        | [hs6, description_en, description_fr]                                    |
+| can_trade | ref_hs8_codes        | [hs8, unit, description_en, description_fr]                              |
+| can_trade | ref_provinces        | [iso_2_alpha, iso_2_numeric, year_start, year_end, name_en, name_fr]     |
+| can_trade | ref_states           | [iso_2_alpha, year_start, year_end, name_en, name_fr]                    |
+
+:::
+<br>
+
+We'll walk through the code behind the `fct_domestic_exports` table. The chunk below is used to create the table and define its contents. Since this data doesn't contain a natural key, we will create a sequence of integers, starting at one, that increments by one for each new row. This `id` column will be this table's primary key and we also specify a foreign key for the `ref_hs8_codes` table. Doing so ensures that the value of the reference column (e.g. `27090010` actually exists within the pre-defined reference table `ref_hs8_codes`).    
+
+```{.sql}
+CREATE SEQUENCE IF NOT EXISTS domestic_exports_id INCREMENT BY 1 MINVALUE 1;
+
+CREATE TABLE IF NOT EXISTS fct_domestic_exports (
+    id INTEGER PRIMARY KEY DEFAULT(nextval('domestic_exports_id')),
+    year INTEGER,
+    month INTEGER,
+    hs8  VARCHAR(8) NOT NULL REFERENCES ref_hs8_codes(hs8),
+    country VARCHAR(2) NOT NULL,
+    province VARCHAR(2) NOT NULL,
+    state VARCHAR(2),
+    value BIGINT NOT NULL,
+    quantity BIGINT NOT NULL,
+    unit VARCHAR(3) NOT NULL REFERENCES ref_units_of_measurement(unit)
+);
+```
+
+With the table created, we can now insert data into it. The `{targets}` pipeline I built to download the data stores the 37 different `.csv` files for domestic exports in their own year-specific directories. We can easily read all this data using DuckDb's `read_csv()` function and a bit of globbing. We're also splitting the `YearMonth/AnnéeMois` column into separate year and month columns.
+
+```{.sql}
+INSERT INTO fct_domestic_exports (
+    year, 
+    month,
+    hs8,
+    country,
+    province,
+    state,
+    value,
+    quantity,
+    unit
+) 
+SELECT 
+    ("YearMonth/AnnéeMois" / 100)::INTEGER AS year,   
+    ("YearMonth/AnnéeMois" % 100)::INTEGER AS month,
+    HS8,
+    "Country/Pays",
+    Province,
+    "State/État",
+    "Value/Valeur",
+    "Quantity/Quantité",
+    "Unit of Measure/Unité de Mesure"
+FROM 
+    read_csv("data/data_unzipped/CIMT-CICM_Dom_Exp_*/ODPFN016_*.csv");
+```
+
+As an example of what we can do with this database, let's see what commodities were the top exports, in terms of dollar value, in the year 2025. The query below does this and brings in the `ref_hs8_codes` table so we can have the description for each eight-digit HS code. According to the data, petroleum, gold, and natural gas were Canada's highest-value exports in 2025.  
+
+```{.sql}
+SELECT
+    fct_domestic_exports.hs8,
+    ref_hs8_codes.description_en,
+    sum(fct_domestic_exports.value) AS total_value
+FROM fct_domestic_exports LEFT JOIN ref_hs8_codes USING (hs8)
+WHERE year = 2025
+GROUP BY fct_domestic_exports.hs8, ref_hs8_codes.description_en
+ORDER BY total_value DESC
+LIMIT 5;
+```
+
+::: {.column-page}
+
+|hs8      |description_en                                                                   | total_value|
+|:--------|:--------------------------------------------------------------------------------|-----------:|
+|27090010 |Petroleum & bituminous min oils, crude, relative density >= 0.9042 (< 25°A.P.I.) | 79363806993|
+|71081210 |Gold in unwrought forms non-monetary, cont by wt 99.95% or more of gold          | 34475321088|
+|27090029 |Petroleum & bituminous min oils,crude,relative density <0.9042 (>=25°A.P.I.),nes | 26708461216|
+|87032397 |Motor veh,transp pers,new,only spk-ign int combu pst eng, > 1,500 <=3,000 cc,nes | 12968983079|
+|27112100 |Natural gas in gaseous state                                                     |  9572411667|
+|31042000 |Potassium chloride, in packages weighing more than 10 kg                         |  6710939160|
+
+:::
+<br>
+
+If you're interested in learning more about DuckDB, consider joining our [DuckDB in Action](https://motherduck.com/duckdb-book-brief-orig/) book club over at the [Data Science Learning Community](https://dslc.io/). It's completely free and a great way to share the learning journey with others.   

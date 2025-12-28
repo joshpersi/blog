@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://joshpersi.github.io/blog/posts/02_probability_mass_functions/index.html</loc>
-    <lastmod>2025-12-21T21:29:32.733Z</lastmod>
+    <loc>https://joshpersi.github.io/blog/posts/03_duckdb_trade_database/index.html</loc>
+    <lastmod>2025-12-28T20:34:43.775Z</lastmod>
   </url>
   <url>
-    <loc>https://joshpersi.github.io/blog/index.html</loc>
-    <lastmod>2025-11-22T13:19:13.836Z</lastmod>
+    <loc>https://joshpersi.github.io/blog/posts/01_plot_captions/index.html</loc>
+    <lastmod>2025-12-21T21:08:42.249Z</lastmod>
   </url>
   <url>
     <loc>https://joshpersi.github.io/blog/about.html</loc>
     <lastmod>2025-11-22T13:43:14.310Z</lastmod>
   </url>
   <url>
-    <loc>https://joshpersi.github.io/blog/posts/01_plot_captions/index.html</loc>
-    <lastmod>2025-12-21T21:08:42.249Z</lastmod>
+    <loc>https://joshpersi.github.io/blog/index.html</loc>
+    <lastmod>2025-12-28T20:10:48.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshpersi.github.io/blog/posts/02_probability_mass_functions/index.html</loc>
+    <lastmod>2025-12-21T21:29:32.733Z</lastmod>
   </url>
 </urlset>

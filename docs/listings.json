@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/03_duckdb_trade_database/index.html",
       "/posts/02_probability_mass_functions/index.html",
       "/posts/01_plot_captions/index.html"
     ]
